@@ -1,6 +1,5 @@
 chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
   chrome.tabs.sendMessage(tabs[0].id, { type: "getAll" }, function (response) {
-    console.log(response)
     if (response?.emails) document.getElementById("emaillist").replaceChildren(...createLiList(response.emails, true));
     if (response?.urls) document.getElementById("urllist").replaceChildren(...createLiList(response.urls));
   });
@@ -65,7 +64,6 @@ function createLiList(links, isEmailList = false) {
     buttonCopy.classList.add("btn")
     buttonCopy.onclick = function () {
       const copyLink = link.startsWith("mailto:") ? link.substring(7, Infinity) : link
-      console.log("Copying", copyLink)
       navigator.clipboard.writeText(copyLink).then(() => alert("Copied to clipboard: " + copyLink))
       return false
     }
